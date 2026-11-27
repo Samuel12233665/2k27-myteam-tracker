@@ -10,11 +10,12 @@ CANDIDATE_URLS = [
     "https://2kauction.com/zh-hant/players"
 ]
 
+
 def parse_price_value(raw):
     if not raw:
         return None
     s = raw.strip().replace(",", "")
-    m = re.search(r'(\d+(?:\.\d+)?)\s*([kKmM])?', s)
+    m = re.search(r"(\d+(?:\.\d+)?)\s*([kKmM])?", s)
     if not m:
         return None
     val = float(m.group(1))
@@ -25,6 +26,7 @@ def parse_price_value(raw):
         val *= 1000000
     num = int(val)
     return num if 500 <= num <= 50000000 else None
+
 
 def inspect_page_and_extract(page, target_ovr):
     script = """
@@ -84,6 +86,7 @@ def inspect_page_and_extract(page, target_ovr):
                 })
     parsed.sort(key=lambda x: x["price"])
     return parsed
+
 
 def main():
     hk_tz = timezone(timedelta(hours=8))
@@ -161,3 +164,25 @@ def main():
                 "player": lowest_player,
                 "min_price": min_price,
                 "top3_summary": top3_list,
+                "daily_diff": daily_diff,
+                "status": status,
+                "url": target_url,
+            })
+
+        browser.close()
+
+    output = {
+        "updated_at": now_str,
+        "game": "NBA 2K27 MyTEAM (2kauction.com)",
+        "items": results,
+    }
+
+    with open("data.json", "w", encoding="utf-8") as f:
+        json.dump(output, f, ensure_ascii=False, indent=2)
+
+    with open("debug.json", "w", encoding="utf-8") as f:
+        json.dump(debug_info, f, ensure_ascii=False, indent=2)
+
+
+if __name__ == "__main__":
+    main()
