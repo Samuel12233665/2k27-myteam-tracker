@@ -87,7 +87,6 @@ def extract_cards_for_ovr(page, target_ovr):
 
 
 def try_filter_by_ovr(page, ovr):
-    # 嘗試在頁面上點選對應評分的篩選按鈕、分頁或下拉選項
     selectors = [
         f"button:has-text('{ovr}')",
         f"a:has-text('{ovr}')",
@@ -161,6 +160,47 @@ def main():
                 try:
                     matches = extract_cards_for_ovr(page, ovr)
                     if not matches:
-                        # 若目前畫面沒有該評分，嘗試點選篩選器並重新捲動
                         try_filter_by_ovr(page, ovr)
                         for _ in range(5):
+                            page.mouse.wheel(0, 1200)
+                            page.wait_for_timeout(700)
+                        matches = extract_cards_for_ovr(page, ovr)
+
+                    if matches:
+                        min_price = matches[0]["price"]
+                        lowest_player = matches[0]["player"]
+                        target_url = matches[0]["url"]
+                        top3_list = [f"{m['player']} ({m['price']:,})" for m in matches[:3]]
+                        status = "已更新"
+                    else:
+                        status = "未找到符合卡片"
+                except Exception:
+                    status = "解析異常"
+
+            prev_p = old_prices.get(str(ovr))
+            daily_diff = (min_price - prev_p) if (min_price and prev_p) else 0
+
+            results.append({
+                "ovr": ovr,
+                "player": lowest_player,
+                "min_price": min_price,
+                "top3_summary": top3_list,
+                "daily_diff": daily_diff,
+                "status": status,
+                "url": target_url,
+            })
+
+        browser.close()
+
+    output = {
+        "updated_at": now_str,
+        "game": "NBA 2K27 MyTEAM (2kauction.com)",
+        "items": results,
+    }
+
+    with open("data.json", "w", encoding="utf-8") as f:
+        json.dump(output, f, ensure_ascii=False, indent=2)
+
+
+if __name__ == "__main__":
+    main()
