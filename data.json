@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27 16:40",
+  "updated_at": "2026-11-27 16:45",
   "game": "NBA 2K27 MyTEAM (2kauction.com)",
   "items": [
     {
@@ -9,16 +9,20 @@
       "top3_summary": [],
       "daily_diff": 0,
       "status": "未找到符合卡片",
-      "url": "https://2kauction.com/zh-hant/players"
+      "url": "https://2kauction.com/zh-hant"
     },
     {
       "ovr": 94,
-      "player": "-",
-      "min_price": null,
-      "top3_summary": [],
+      "player": "Markelle Fultz",
+      "min_price": 9500,
+      "top3_summary": [
+        "Markelle Fultz (9,500)",
+        "Markelle Fultz (9,500)",
+        "Markelle Fultz (9,500)"
+      ],
       "daily_diff": 0,
-      "status": "未找到符合卡片",
-      "url": "https://2kauction.com/zh-hant/players"
+      "status": "已更新",
+      "url": "https://2kauction.com/zh-hant/cards/TDK7HSwqYZ/markelle-fultz-57129-dark-matter-prime-series-i-premier"
     },
     {
       "ovr": 95,
@@ -27,7 +31,7 @@
       "top3_summary": [],
       "daily_diff": 0,
       "status": "未找到符合卡片",
-      "url": "https://2kauction.com/zh-hant/players"
+      "url": "https://2kauction.com/zh-hant"
     },
     {
       "ovr": 96,
@@ -36,7 +40,7 @@
       "top3_summary": [],
       "daily_diff": 0,
       "status": "未找到符合卡片",
-      "url": "https://2kauction.com/zh-hant/players"
+      "url": "https://2kauction.com/zh-hant"
     }
   ]
 }
