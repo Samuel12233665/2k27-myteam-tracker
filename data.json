@@ -1,0 +1,45 @@
+{
+  "updated_at": "2026-11-27 15:42",
+  "game": "NBA 2K27 MyTEAM (2kauction.com)",
+  "items": [
+    {
+      "ovr": 93,
+      "tier_name": "93 OVR 鑽石/粉鑽/銀河級",
+      "min_price": 2000,
+      "top3_prices": [
+        2000,
+        2388
+      ],
+      "daily_diff": 0,
+      "status": "已更新",
+      "url": "https://2kauction.com/zh-hant/players?ovr=93&sort=price_asc"
+    },
+    {
+      "ovr": 94,
+      "tier_name": "94 OVR 鑽石/粉鑽/銀河級",
+      "min_price": null,
+      "top3_prices": [],
+      "daily_diff": 0,
+      "status": "網頁載入失敗",
+      "url": "https://2kauction.com/zh-hant?ovr=94"
+    },
+    {
+      "ovr": 95,
+      "tier_name": "95 OVR 鑽石/粉鑽/銀河級",
+      "min_price": null,
+      "top3_prices": [],
+      "daily_diff": 0,
+      "status": "網頁載入失敗",
+      "url": "https://2kauction.com/zh-hant?ovr=95"
+    },
+    {
+      "ovr": 96,
+      "tier_name": "96 OVR 鑽石/粉鑽/銀河級",
+      "min_price": null,
+      "top3_prices": [],
+      "daily_diff": 0,
+      "status": "網頁載入失敗",
+      "url": "https://2kauction.com/zh-hant?ovr=96"
+    }
+  ]
+}
