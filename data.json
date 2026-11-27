@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27 17:38",
+  "updated_at": "2026-11-27 19:38",
   "platform": "PC (Steam)",
   "sort": "價格：從低到高",
   "items": [
@@ -7,52 +7,52 @@
       "ovr": 93,
       "tier_code": "GO",
       "tier_label": "GO (93)",
-      "player": "待對齊真實卡片結構",
+      "player": "-",
       "min_price": null,
       "raw_price_text": "-",
       "avg_price": null,
       "trend_note": "",
       "daily_diff": 0,
-      "status": "已收集頁面結構",
+      "status": "未找到卡片或需調整選擇器",
       "url": "https://2kauction.com/zh-hant/players"
     },
     {
       "ovr": 94,
       "tier_code": "DM",
       "tier_label": "DM (94)",
-      "player": "待對齊真實卡片結構",
+      "player": "-",
       "min_price": null,
       "raw_price_text": "-",
       "avg_price": null,
       "trend_note": "",
       "daily_diff": 0,
-      "status": "已收集頁面結構",
+      "status": "未找到卡片或需調整選擇器",
       "url": "https://2kauction.com/zh-hant/players"
     },
     {
       "ovr": 95,
       "tier_code": "PC",
       "tier_label": "PC (95)",
-      "player": "待對齊真實卡片結構",
+      "player": "-",
       "min_price": null,
       "raw_price_text": "-",
       "avg_price": null,
       "trend_note": "",
       "daily_diff": 0,
-      "status": "已收集頁面結構",
+      "status": "未找到卡片或需調整選擇器",
       "url": "https://2kauction.com/zh-hant/players"
     },
     {
       "ovr": 96,
       "tier_code": "MAG",
       "tier_label": "MAG (96)",
-      "player": "待對齊真實卡片結構",
+      "player": "-",
       "min_price": null,
       "raw_price_text": "-",
       "avg_price": null,
       "trend_note": "",
       "daily_diff": 0,
-      "status": "已收集頁面結構",
+      "status": "未找到卡片或需調整選擇器",
       "url": "https://2kauction.com/zh-hant/players"
     }
   ]
