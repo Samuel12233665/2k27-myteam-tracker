@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NBA 2K27 MyTEAM 每日各等級最低價監察</title>
+  <title>NBA 2K27 MyTEAM 每日各等級最低一口價監察</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 20px; }
-    .container { max-width: 1020px; margin: 0 auto; background: #1e293b; border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); padding: 24px; border: 1px solid #334155; }
+    .container { max-width: 1080px; margin: 0 auto; background: #1e293b; border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); padding: 24px; border: 1px solid #334155; }
     h1 { font-size: 1.45rem; margin: 0 0 8px; color: #f8fafc; }
-    .meta { font-size: 0.9rem; color: #94a3b8; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
-    .badge { background: #3b82f6; color: #fff; padding: 3px 10px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; }
+    .meta { font-size: 0.9rem; color: #94a3b8; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .badge { background: #2563eb; color: #fff; padding: 3px 10px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; }
     table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
     th, td { padding: 14px 12px; text-align: left; border-bottom: 1px solid #334155; }
     th { background: #0f172a; font-weight: 600; color: #cbd5e1; }
-    .ovr-pill { display: inline-block; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.95rem; }
+    .tier-pill { display: inline-block; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.9rem; }
     .ovr-93 { background: #0284c7; color: #fff; }
     .ovr-94 { background: #7c3aed; color: #fff; }
     .ovr-95 { background: #db2777; color: #fff; }
@@ -30,21 +30,21 @@
 </head>
 <body>
   <div class="container">
-    <h1>🏀 NBA 2K27 MyTEAM 每日各等級最低價監察</h1>
+    <h1>🏀 NBA 2K27 MyTEAM 每日各等級最低一口價監察</h1>
     <div class="meta">
       <span>最後更新：<strong id="updated-at">載入中...</strong> (香港時間)</span>
-      <span class="badge">數據來源：2kauction.com/zh-hant/players</span>
+      <span class="badge">PC (Steam)｜價格：從低到高</span>
     </div>
     <table>
       <thead>
         <tr>
-          <th>評分</th>
-          <th>最低價球員</th>
-          <th>當日最低價</th>
-          <th>前三低價參考</th>
+          <th>等級 / 評分</th>
+          <th>最低一口價球員</th>
+          <th>當日最低一口價</th>
+          <th>詳情頁升降 / 均價</th>
           <th>較昨日升跌</th>
           <th>狀態</th>
-          <th>球員連結</th>
+          <th>球員詳情</th>
         </tr>
       </thead>
       <tbody id="table-body">
@@ -62,11 +62,10 @@
         tbody.innerHTML = '';
 
         data.items.forEach(item => {
+          const tierStr = item.tier_label || `${item.ovr}`;
           const playerStr = item.player || '-';
-          const priceStr = item.min_price ? `${item.min_price.toLocaleString()} MT` : '暫無數據';
-          const top3Str = (item.top3_summary && item.top3_summary.length)
-            ? item.top3_summary.join(' / ')
-            : '-';
+          const priceStr = item.min_price ? `${item.min_price.toLocaleString()} MT` : (item.raw_price_text && item.raw_price_text !== '-' ? item.raw_price_text : '暫無數據');
+          const detailInfo = item.trend_note || (item.avg_price ? `均價 ${item.avg_price.toLocaleString()} MT` : '-');
 
           let diffStr = '無變動';
           let diffClass = 'flat';
@@ -75,10 +74,10 @@
 
           const tr = document.createElement('tr');
           tr.innerHTML = `
-            <td><span class="ovr-pill ovr-${item.ovr}">${item.ovr}</span></td>
+            <td><span class="tier-pill ovr-${item.ovr}">${tierStr}</span></td>
             <td class="player-name">${playerStr}</td>
             <td class="price">${priceStr}</td>
-            <td style="color:#cbd5e1; font-size:0.85rem;">${top3Str}</td>
+            <td style="color:#cbd5e1; font-size:0.85rem;">${detailInfo}</td>
             <td class="${diffClass}">${diffStr}</td>
             <td style="color:#94a3b8; font-size:0.85rem;">${item.status}</td>
             <td><a class="btn" href="${item.url}" target="_blank">查看詳情</a></td>
