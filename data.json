@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27 17:04",
+  "updated_at": "2026-11-27 17:14",
   "game": "NBA 2K27 MyTEAM (2kauction.com)",
   "items": [
     {
@@ -9,20 +9,19 @@
       "top3_summary": [],
       "daily_diff": 0,
       "status": "未找到符合卡片",
-      "url": "https://2kauction.com/zh-hant"
+      "url": "https://2kauction.com/zh-hant/players"
     },
     {
       "ovr": 94,
-      "player": "Markelle Fultz",
-      "min_price": 9500,
+      "player": "Jarrett Jack",
+      "min_price": 2000,
       "top3_summary": [
-        "Markelle Fultz (9,500)",
-        "Allen Graves (10,000)",
-        "Deandre Hunter (10,000)"
+        "Jarrett Jack (2,000)",
+        "James Posey (2,000)"
       ],
-      "daily_diff": 0,
+      "daily_diff": -7500,
       "status": "已更新",
-      "url": "https://2kauction.com/zh-hant/cards/TDK7HSwqYZ/markelle-fultz-57129-dark-matter-prime-series-i-premier"
+      "url": "https://2kauction.com/zh-hant/players/jarrett-jack"
     },
     {
       "ovr": 95,
@@ -31,7 +30,7 @@
       "top3_summary": [],
       "daily_diff": 0,
       "status": "未找到符合卡片",
-      "url": "https://2kauction.com/zh-hant"
+      "url": "https://2kauction.com/zh-hant/players"
     },
     {
       "ovr": 96,
@@ -40,7 +39,7 @@
       "top3_summary": [],
       "daily_diff": 0,
       "status": "未找到符合卡片",
-      "url": "https://2kauction.com/zh-hant"
+      "url": "https://2kauction.com/zh-hant/players"
     }
   ]
 }
