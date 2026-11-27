@@ -5,9 +5,9 @@ from datetime import datetime, timezone, timedelta
 from playwright.sync_api import sync_playwright
 
 RATINGS = [93, 94, 95, 96]
-CANDIDATE_URLS = [
-    "https://2kauction.com/zh-hant",
-    "https://2kauction.com/zh-hant/players"
+TARGET_URLS = [
+    "https://2kauction.com/zh-hant/players",
+    "https://2kauction.com/zh-hant"
 ]
 
 
@@ -28,7 +28,7 @@ def parse_price_value(raw):
     return num if 500 <= num <= 50000000 else None
 
 
-def inspect_page_and_extract(page, target_ovr):
+def extract_cards_for_ovr(page, target_ovr):
     script = """
     (ovr) => {
       const results = [];
@@ -59,7 +59,6 @@ def inspect_page_and_extract(page, target_ovr):
         results.push({
           player: playerCandidate,
           price_tokens: priceMatches,
-          snippet: text.replace(/\\n+/g, ' | ').slice(0, 160),
           href: (el.closest('a') || el.querySelector('a') || {}).href || ''
         });
       }
@@ -81,11 +80,31 @@ def inspect_page_and_extract(page, target_ovr):
                 parsed.append({
                     "player": player,
                     "price": val,
-                    "snippet": item.get("snippet", ""),
                     "url": item.get("href") or page.url
                 })
     parsed.sort(key=lambda x: x["price"])
     return parsed
+
+
+def try_filter_by_ovr(page, ovr):
+    # 嘗試在頁面上點選對應評分的篩選按鈕、分頁或下拉選項
+    selectors = [
+        f"button:has-text('{ovr}')",
+        f"a:has-text('{ovr}')",
+        f"[data-ovr='{ovr}']",
+        f"[data-rating='{ovr}']",
+        f"label:has-text('{ovr}')"
+    ]
+    for sel in selectors:
+        try:
+            loc = page.locator(sel).first
+            if loc.count() > 0 and loc.is_visible():
+                loc.click(timeout=2000)
+                page.wait_for_timeout(1500)
+                return True
+        except Exception:
+            continue
+    return False
 
 
 def main():
@@ -104,7 +123,6 @@ def main():
             pass
 
     results = []
-    debug_info = {}
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
@@ -114,75 +132,35 @@ def main():
         )
 
         page = context.new_page()
-        active_url = CANDIDATE_URLS[0]
-        page_text_preview = ""
+        active_url = TARGET_URLS[0]
+        page_loaded = False
 
-        for url in CANDIDATE_URLS:
+        for url in TARGET_URLS:
             try:
                 page.goto(url, wait_until="domcontentloaded", timeout=45000)
                 page.wait_for_timeout(5000)
                 for _ in range(10):
                     page.mouse.wheel(0, 1400)
-                    page.wait_for_timeout(1000)
+                    page.wait_for_timeout(800)
                 body_txt = (page.inner_text("body") or "").strip()
                 if len(body_txt) > 100:
                     active_url = url
-                    page_text_preview = body_txt[:400].replace("\n", " | ")
+                    page_loaded = True
                     break
             except Exception:
                 continue
-
-        debug_info["active_url"] = active_url
-        debug_info["page_text_preview"] = page_text_preview
 
         for ovr in RATINGS:
             min_price = None
             lowest_player = "-"
             top3_list = []
             target_url = active_url
-            status = "已更新"
+            status = "已更新" if page_loaded else "網頁載入失敗"
 
-            try:
-                matches = inspect_page_and_extract(page, ovr)
-                debug_info[str(ovr)] = [m["snippet"] for m in matches[:5]]
-                if matches:
-                    min_price = matches[0]["price"]
-                    lowest_player = matches[0]["player"]
-                    target_url = matches[0]["url"]
-                    top3_list = [f"{m['player']} ({m['price']:,})" for m in matches[:3]]
-                    status = "已更新"
-                else:
-                    status = "未找到符合卡片"
-            except Exception:
-                status = "解析異常"
-
-            prev_p = old_prices.get(str(ovr))
-            daily_diff = (min_price - prev_p) if (min_price and prev_p) else 0
-
-            results.append({
-                "ovr": ovr,
-                "player": lowest_player,
-                "min_price": min_price,
-                "top3_summary": top3_list,
-                "daily_diff": daily_diff,
-                "status": status,
-                "url": target_url,
-            })
-
-        browser.close()
-
-    output = {
-        "updated_at": now_str,
-        "game": "NBA 2K27 MyTEAM (2kauction.com)",
-        "items": results,
-    }
-
-    with open("data.json", "w", encoding="utf-8") as f:
-        json.dump(output, f, ensure_ascii=False, indent=2)
-
-    with open("debug.json", "w", encoding="utf-8") as f:
-        json.dump(debug_info, f, ensure_ascii=False, indent=2)
-
-
-if __name__ == "__main__":
-    main()
+            if page_loaded:
+                try:
+                    matches = extract_cards_for_ovr(page, ovr)
+                    if not matches:
+                        # 若目前畫面沒有該評分，嘗試點選篩選器並重新捲動
+                        try_filter_by_ovr(page, ovr)
+                        for _ in range(5):
