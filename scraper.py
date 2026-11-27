@@ -34,14 +34,12 @@ def inspect_page_and_extract(page, target_ovr):
       for (const el of allEls) {
         const text = (el.innerText || '').trim();
         if (!text || text.length < 4 || text.length > 500) continue;
-        // 避免抓到過大的外層容器
         const childCards = el.querySelectorAll('a, tr, article').length;
         if (childCards > 5) continue;
 
         const hasExactNumber = new RegExp(`(^|\\s|[^0-9])${ovr}(\\s|[^0-9]|$)`).test(text);
         if (!hasExactNumber) continue;
 
-        // 抓取任何可能是價格的數字或 K/M 數值（排除 93~96 評分本身）
         const priceMatches = Array.from(text.matchAll(/(\\d{1,3}(?:,\\d{3})+|\\d{4,7}|\\d+(?:\\.\\d+)?\\s*[kKmM])/g))
           .map(m => m[0].trim())
           .filter(token => !['93', '94', '95', '96', '2026', '2027'].includes(token));
@@ -59,7 +57,7 @@ def inspect_page_and_extract(page, target_ovr):
         results.push({
           player: playerCandidate,
           price_tokens: priceMatches,
-          snippet: text.replace(/\\n+/g, ' | ').slice(0, 140),
+          snippet: text.replace(/\\n+/g, ' | ').slice(0, 160),
           href: (el.closest('a') || el.querySelector('a') || {}).href || ''
         });
       }
@@ -68,12 +66,18 @@ def inspect_page_and_extract(page, target_ovr):
     """
     raw_matches = page.evaluate(script, target_ovr)
     parsed = []
+    seen = set()
     for item in raw_matches:
+        player = (item.get("player") or "未知球員").strip()
         for tok in item.get("price_tokens", []):
             val = parse_price_value(tok)
             if val is not None:
+                key = (player.lower(), val)
+                if key in seen:
+                    continue
+                seen.add(key)
                 parsed.append({
-                    "player": item.get("player") or "未知球員",
+                    "player": player,
                     "price": val,
                     "snippet": item.get("snippet", ""),
                     "url": item.get("href") or page.url
@@ -112,10 +116,10 @@ def main():
 
         for url in CANDIDATE_URLS:
             try:
-                resp = page.goto(url, wait_until="domcontentloaded", timeout=45000)
+                page.goto(url, wait_until="domcontentloaded", timeout=45000)
                 page.wait_for_timeout(5000)
-                for _ in range(4):
-                    page.mouse.wheel(0, 1000)
+                for _ in range(10):
+                    page.mouse.wheel(0, 1400)
                     page.wait_for_timeout(1000)
                 body_txt = (page.inner_text("body") or "").strip()
                 if len(body_txt) > 100:
@@ -137,7 +141,7 @@ def main():
 
             try:
                 matches = inspect_page_and_extract(page, ovr)
-                debug_info[str(ovr)] = [m["snippet"] for m in matches[:3]]
+                debug_info[str(ovr)] = [m["snippet"] for m in matches[:5]]
                 if matches:
                     min_price = matches[0]["price"]
                     lowest_player = matches[0]["player"]
@@ -157,24 +161,3 @@ def main():
                 "player": lowest_player,
                 "min_price": min_price,
                 "top3_summary": top3_list,
-                "daily_diff": daily_diff,
-                "status": status,
-                "url": target_url
-            })
-
-        browser.close()
-
-    output = {
-        "updated_at": now_str,
-        "game": "NBA 2K27 MyTEAM (2kauction.com)",
-        "items": results
-    }
-
-    with open("data.json", "w", encoding="utf-8") as f:
-        json.dump(output, f, ensure_ascii=False, indent=2)
-
-    with open("debug.json", "w", encoding="utf-8") as f:
-        json.dump(debug_info, f, ensure_ascii=False, indent=2)
-
-if __name__ == "__main__":
-    main()
