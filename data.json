@@ -1,44 +1,58 @@
 {
-  "updated_at": "2026-11-27 17:14",
-  "game": "NBA 2K27 MyTEAM (2kauction.com)",
+  "updated_at": "2026-11-27 17:38",
+  "platform": "PC (Steam)",
+  "sort": "價格：從低到高",
   "items": [
     {
       "ovr": 93,
-      "player": "-",
+      "tier_code": "GO",
+      "tier_label": "GO (93)",
+      "player": "待對齊真實卡片結構",
       "min_price": null,
-      "top3_summary": [],
+      "raw_price_text": "-",
+      "avg_price": null,
+      "trend_note": "",
       "daily_diff": 0,
-      "status": "未找到符合卡片",
+      "status": "已收集頁面結構",
       "url": "https://2kauction.com/zh-hant/players"
     },
     {
       "ovr": 94,
-      "player": "Jarrett Jack",
-      "min_price": 2000,
-      "top3_summary": [
-        "Jarrett Jack (2,000)",
-        "James Posey (2,000)"
-      ],
-      "daily_diff": -7500,
-      "status": "已更新",
-      "url": "https://2kauction.com/zh-hant/players/jarrett-jack"
+      "tier_code": "DM",
+      "tier_label": "DM (94)",
+      "player": "待對齊真實卡片結構",
+      "min_price": null,
+      "raw_price_text": "-",
+      "avg_price": null,
+      "trend_note": "",
+      "daily_diff": 0,
+      "status": "已收集頁面結構",
+      "url": "https://2kauction.com/zh-hant/players"
     },
     {
       "ovr": 95,
-      "player": "-",
+      "tier_code": "PC",
+      "tier_label": "PC (95)",
+      "player": "待對齊真實卡片結構",
       "min_price": null,
-      "top3_summary": [],
+      "raw_price_text": "-",
+      "avg_price": null,
+      "trend_note": "",
       "daily_diff": 0,
-      "status": "未找到符合卡片",
+      "status": "已收集頁面結構",
       "url": "https://2kauction.com/zh-hant/players"
     },
     {
       "ovr": 96,
-      "player": "-",
+      "tier_code": "MAG",
+      "tier_label": "MAG (96)",
+      "player": "待對齊真實卡片結構",
       "min_price": null,
-      "top3_summary": [],
+      "raw_price_text": "-",
+      "avg_price": null,
+      "trend_note": "",
       "daily_diff": 0,
-      "status": "未找到符合卡片",
+      "status": "已收集頁面結構",
       "url": "https://2kauction.com/zh-hant/players"
     }
   ]
